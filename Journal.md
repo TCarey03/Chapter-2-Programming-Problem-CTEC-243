@@ -21,3 +21,17 @@ The undo() method checks whether the undoStack is empty before trying to remove 
 If a user calls undo() when no changes have been made, the undoStack is empty. I handled this by checking isEmpty() first. This prevents the program from trying to pop from an empty stack and leaves the current state unchanged.
 
 One thing I learned from this phase is that the stack stores the previous versions of the text, while currentState keeps track of the version currently being displayed.
+
+-----------------------
+
+Phase 3: Adding the Redo Capability
+
+In Phase 3, I added a second stack called redoStack to my EditorHistory class. The undoStack keeps track of states that can be restored with undo, while the redoStack keeps track of states that were undone and can potentially be restored with redo.
+
+When undo() is called, the current state is pushed onto the redoStack before the previous state is taken from the undoStack. This allows the editor to return to that state if redo() is called.
+
+When redo() is called, the current state is pushed back onto the undoStack and the state at the top of the redoStack becomes the current state.
+
+I also made makeChange() clear the redoStack. This is necessary because making a brand-new change creates a new history path. The states that were previously available for redo are no longer relevant. For example, if I undo "one two three" and then type "one four", I should not be able to redo the old "one two three" change.
+
+I also added checks for empty stacks so that calling undo() or redo() when there is nothing available does not cause an error.
