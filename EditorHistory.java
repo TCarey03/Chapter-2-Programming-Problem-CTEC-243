@@ -14,7 +14,7 @@ public class EditorHistory {
         undoStack.push(currentState);
         currentState = newState;
 
-        // A new change makes the old redo history invalid
+        // A new change clears the redo history
         redoStack = new Stack<>();
     }
 
