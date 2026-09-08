@@ -1,20 +1,23 @@
 public class Main {
     public static void main(String[] args) {
 
-        Stack<String> stack = new Stack<>();
+        EditorHistory editor = new EditorHistory();
 
-        System.out.println("Is stack empty? " + stack.isEmpty());
+        System.out.println("Current: " + editor.currentStatus());
 
-        stack.push("First");
-        stack.push("Second");
-        stack.push("Third");
+        editor.makeChange("one");
+        System.out.println("After first change: " + editor.currentStatus());
 
-        System.out.println("Top element: " + stack.peek());
+        editor.makeChange("one two");
+        System.out.println("After second change: " + editor.currentStatus());
 
-        System.out.println("Popped: " + stack.pop());
-        System.out.println("Popped: " + stack.pop());
-        System.out.println("Popped: " + stack.pop());
+        editor.undo();
+        System.out.println("After undo: " + editor.currentStatus());
 
-        System.out.println("Is stack empty? " + stack.isEmpty());
+        editor.undo();
+        System.out.println("After second undo: " + editor.currentStatus());
+
+        editor.undo();
+        System.out.println("After undo with no changes: " + editor.currentStatus());
     }
 }
